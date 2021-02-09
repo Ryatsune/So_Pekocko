@@ -1,6 +1,17 @@
 //imports
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+//Logic to connect to MongoDB
+mongoose.connect('mongodb+srv://Admin:admin33@cluster0.fvmie.mongodb.net/<dbname>?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !')
+);
 
 //create express application
 const app = express();
