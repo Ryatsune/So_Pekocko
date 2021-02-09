@@ -3,6 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const sauceRoutes = require('./routes/sauces');
+
 //Logic to connect to MongoDB
 mongoose.connect('mongodb+srv://Admin:admin33@cluster0.fvmie.mongodb.net/<dbname>?retryWrites=true&w=majority',
   {
@@ -25,6 +27,8 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
+
+app.use('/api/sauces', sauceRoutes);
 
 //exports app
 module.exports = app;
