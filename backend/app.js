@@ -7,10 +7,11 @@ const sauceRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 
 //Logic to connect to MongoDB
-mongoose.connect('mongodb+srv://Admin:admin33@cluster0.fvmie.mongodb.net/<dbname>?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://Administrator:admin33@sopekocko.fvmie.mongodb.net/<dbname>?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
   })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !')
