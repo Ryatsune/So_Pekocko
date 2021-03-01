@@ -1,10 +1,7 @@
-//import package http de node
+//import of the http package of node
 const http = require('http');
-//importe le fichier app.js
+//imports the file app.js
 const app = require('./app');
-
-//définit le port sur lequel tourner
-// app.set('port', process.env.PORT || 3000);
 
 const normalizePort = val => {
     const port = parseInt(val, 10);
@@ -40,11 +37,11 @@ const normalizePort = val => {
     }
 };
 
-//créer un serveur avec la méthode createrServeur
+//create a server with the createrServer method
 const server = http.createServer(app);
 
-//port à écouter avec la méthode listen
-//variable environement process.env.PORT
+//port to listen with the listen method
+//env variable process.env.PORT
 //server.listen(process.env.PORT || 3000);
 
 server.on('error', errorHandler);
