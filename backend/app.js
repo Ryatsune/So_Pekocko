@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
+const helmet = require('helmet');
 
 const sauceRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
@@ -30,6 +31,8 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
+
+app.use(helmet());
 
 app.use(bodyParser.json());
 
