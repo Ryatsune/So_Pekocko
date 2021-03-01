@@ -1,5 +1,7 @@
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
+//mongo sanitize empêche d'entrer le caractère '$' dans l'input 
+const sanitize = require('mongo-sanitize');
 
 exports.getAllSauces = (req, res, next) => {
     Sauce.find()
@@ -16,13 +18,23 @@ exports.getOneSauce = (req, res, next) => {
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id;
-    const sauce = new Sauce({
-      ...sauceObject,
+    console.log(sauceObject.userId);
+    const cleanSauceObject = {
+      name: sanitize(sauceObject.name),
+      manufacturer: sanitize(sauceObject.manufacturer),
+      description: sanitize(sauceObject.description),
+      heat: sanitize(sauceObject.heat),
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+      mainPepper: sanitize(sauceObject.mainPepper),
+      userId: sanitize(sauceObject.userId),
       likes:0,
       dislikes:0,
       usersLiked: [],
       usersDisliked: [],
+    }
+    console.log(cleanSauceObject);
+    const sauce = new Sauce({
+       ...cleanSauceObject,
     });
     sauce.save()
     .then(() => res.status(201).json({ message: 'Sauce enregistrée !'}))
@@ -31,6 +43,7 @@ exports.createSauce = (req, res, next) => {
 
 exports.modifySauce = (req, res, next) => {
     const sauceObject = req.file ?
+    //req.file evalue si une nouvelle image est ajoutée si oui new imageUrl, si non ...req.body
     { 
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
