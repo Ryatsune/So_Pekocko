@@ -40,6 +40,57 @@ exports.modifySauce = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 }
 
+exports.likeSauce = (req, res) => {
+    switch (req.body.like) {
+      case 0:
+        Sauce.findOne({ _id: req.params.id })
+          .then((sauce) => {
+            if (sauce.usersLiked.find((user) => user === req.body.userId)) {
+              Sauce.updateOne({ _id: req.params.id }, {
+                $inc: { likes: -1 },
+                $pull: { usersLiked: req.body.userId },
+                _id: req.params.id,
+              })
+                .then(() => { res.status(201).json({ message: 'Like retiré !' }); })
+                .catch((error) => { res.status(400).json({ error }); });
+            } if (sauce.usersDisliked.find((user) => user === req.body.userId)) {
+              Sauce.updateOne({ _id: req.params.id }, {
+                //the $inc operator increments a field by a specified value
+                //the $pull operator removes from an existing array all instances of a value or values that match a specified condition
+                $inc: { dislikes: -1 },
+                $pull: { usersDisliked: req.body.userId },
+                _id: req.params.id,
+              })
+                .then(() => { res.status(201).json({ message: 'Dislike retiré !' }); })
+                .catch((error) => { res.status(400).json({ error }); });
+            }
+          })
+          .catch((error) => { res.status(404).json({ error }); });
+        break;
+      case 1:
+        Sauce.updateOne({ _id: req.params.id }, {
+          //the $push operator appends a specified value to an array
+          $inc: { likes: 1 },
+          $push: { usersLiked: req.body.userId },
+          _id: req.params.id,
+        })
+          .then(() => { res.status(201).json({ message: 'Like ajouté !' }); })
+          .catch((error) => { res.status(400).json({ error }); });
+        break;
+      case -1:
+        Sauce.updateOne({ _id: req.params.id }, {
+          $inc: { dislikes: 1 },
+          $push: { usersDisliked: req.body.userId },
+          _id: req.params.id,
+        })
+          .then(() => { res.status(201).json({ message: 'Dislike ajouté !' }); })
+          .catch((error) => { res.status(400).json({ error }); });
+        break;
+      default:
+        console.error( error );
+    }
+};
+
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
