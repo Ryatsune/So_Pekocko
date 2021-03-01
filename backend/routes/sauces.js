@@ -6,17 +6,17 @@ const multer = require('../middleware/multer-config');
 
 const sauceCtrl = require('../controllers/sauces');
 
-//route POST pour la création d'une nouvelle sauce
+//POST route for the creation of a new sauce
 router.post('/', auth, multer, sauceCtrl.createSauce);
-//route GET pour la récupération des sauces
+//GET route for recovery of sauces
 router.get('/', auth, sauceCtrl.getAllSauces);
-//route GET pour la récupération d'une sauce
+//GET route for the recovery of a sauce
 router.get('/:id', auth, sauceCtrl.getOneSauce);
-//route PUT pour la modification d'une sauce existante
+//PUT route for the modification of an existing sauce
 router.put('/:id', auth, multer, sauceCtrl.modifySauce);
-//route DELETE pour la suppression d'une sauce existante
+//DELETE route for the removal of an existing sauce
 router.delete('/:id', auth, sauceCtrl.deleteSauce);
-// //route POST pour l'ajout ou suppression de likes
+//POST route for adding or removing likes
 router.post('/:id/like', auth, sauceCtrl.likeSauce);
 
 module.exports = router;
