@@ -1,4 +1,4 @@
-This project is the 5th in the Openclassrooms web developer training
+This project is the 6th in the Openclassrooms web developer training
 
 So Pekocko is a hot sauce evaluation application for which you can add new sauces, modify or delete the one you created
 
